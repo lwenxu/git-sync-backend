@@ -1,0 +1,20 @@
+server:
+  port: 8087
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:file:~/.h2/data.db
+    driver-class-name: org.h2.Driver
+    platform: h2
+  h2:
+    console:
+      enabled: true
+  quartz:
+    job-store-type: memory
+
+logging:
+  level:
+    root: info
