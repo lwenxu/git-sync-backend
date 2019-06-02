@@ -1,16 +1,13 @@
 package com.lwen.gitsync.task;
 
-import com.google.common.collect.Maps;
 import com.lwen.gitsync.constants.LogConstants;
 import com.lwen.gitsync.entry.AccountInfo;
 import com.lwen.gitsync.entry.JobSchedule;
-import com.lwen.gitsync.job.GitFileSyncJob;
+import com.lwen.gitsync.job.JGitFileSyncJob;
 import com.lwen.gitsync.service.AccountInfoService;
 import com.lwen.gitsync.service.JobScheduleService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,7 +18,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class SyncFilesTask implements ApplicationRunner {
+public class SyncFilesTask {
     @Resource
     Scheduler scheduler;
     @Resource
@@ -38,7 +35,7 @@ public class SyncFilesTask implements ApplicationRunner {
             JobDataMap dataMap = new JobDataMap();
             dataMap.put("jobScheduleService", jobScheduleService);
             JobDetail jobDetail = JobBuilder
-                    .newJob(GitFileSyncJob.class)
+                    .newJob(JGitFileSyncJob.class)
                     .withIdentity(jobSchedule.getRepository())
                     .usingJobData("repository", jobSchedule.getRepository())
                     .usingJobData("syncPath", jobSchedule.getSyncPath())
@@ -85,10 +82,5 @@ public class SyncFilesTask implements ApplicationRunner {
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        start();
     }
 }

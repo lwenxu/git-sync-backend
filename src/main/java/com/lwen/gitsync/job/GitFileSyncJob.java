@@ -62,4 +62,5 @@ public class GitFileSyncJob implements Job {
         });
         jobScheduleService.endSync(id);
     }
+
 }

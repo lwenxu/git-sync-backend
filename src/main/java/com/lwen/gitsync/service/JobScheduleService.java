@@ -40,19 +40,36 @@ public class JobScheduleService {
         return jobScheduleRepository.findAll();
     }
 
+    /**
+     * 正在同步 status 为 0
+     * @param id
+     */
     public void startSync(int id) {
-        JobSchedule jobSchedule = updateStatus(id, 0);
-        WebSocketService.sendAll(JSON.toJSONString(WsResultUtils.success(jobSchedule, WsResultVO.SYNC_STATUS_CHANGE)));
+        updateStatus(id, 0);
     }
 
+    /**
+     * 同步完成  status 1
+     * @param id
+     */
     public void endSync(int id) {
-        JobSchedule jobSchedule = updateStatus(id, 1);
-        WebSocketService.sendAll(JSON.toJSONString(WsResultUtils.success(jobSchedule, WsResultVO.SYNC_STATUS_CHANGE)));
+        updateStatus(id, 1);
     }
 
-    private JobSchedule updateStatus(int id, int status) {
+    /**
+     * 出现冲突 status 为 2
+     * @param id
+     */
+    public void syncConflict(int id) {
+        updateStatus(id,2);
+    }
+
+    private void updateStatus(int id, int status) {
         JobSchedule jobSchedule = jobScheduleRepository.findById(id).get();
         jobSchedule.setStatus(status);
-        return jobScheduleRepository.save(jobSchedule);
+        JobSchedule schedule = jobScheduleRepository.save(jobSchedule);
+        WebSocketService.sendAll(JSON.toJSONString(WsResultUtils.success(schedule, WsResultVO.SYNC_STATUS_CHANGE)));
     }
+
+
 }
