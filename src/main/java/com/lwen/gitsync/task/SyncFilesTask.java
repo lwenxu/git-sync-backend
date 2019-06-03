@@ -6,6 +6,7 @@ import com.lwen.gitsync.entry.JobSchedule;
 import com.lwen.gitsync.job.JGitFileSyncJob;
 import com.lwen.gitsync.service.AccountInfoService;
 import com.lwen.gitsync.service.JobScheduleService;
+import com.lwen.gitsync.service.StatisticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,8 @@ public class SyncFilesTask {
     JobScheduleService jobScheduleService;
     @Resource
     AccountInfoService accountInfoService;
+    @Resource
+    StatisticsService statisticsService;
 
     Map<JobDetail, Trigger> jtMap = new HashMap<>();
 
@@ -34,6 +37,7 @@ public class SyncFilesTask {
         jobSchedules.forEach(jobSchedule -> {
             JobDataMap dataMap = new JobDataMap();
             dataMap.put("jobScheduleService", jobScheduleService);
+            dataMap.put("statisticsService", statisticsService);
             JobDetail jobDetail = JobBuilder
                     .newJob(JGitFileSyncJob.class)
                     .withIdentity(jobSchedule.getRepository())

@@ -5,6 +5,7 @@ import com.lwen.gitsync.entry.AccountInfo;
 import com.lwen.gitsync.entry.JobSchedule;
 import com.lwen.gitsync.service.JobScheduleService;
 import com.lwen.gitsync.service.AccountInfoService;
+import com.lwen.gitsync.service.StatisticsService;
 import com.lwen.gitsync.utils.ResultUtils;
 import com.lwen.gitsync.vo.ResultVo;
 import org.slf4j.Logger;
@@ -21,6 +22,8 @@ public class HomeController {
     AccountInfoService accountInfoService;
     @Resource
     JobScheduleService jobScheduleService;
+    @Resource
+    StatisticsService statisticsService;
 
     @PostMapping("/settings")
     public ResultVo saveSettings(@RequestBody AccountInfo params) {
@@ -50,6 +53,11 @@ public class HomeController {
     public ResultVo deleteSyncDirs(@PathVariable("id") int id) {
         jobScheduleService.delete(id);
         return ResultUtils.ret(ResultCodeEnum.SYNC_DIR_DELETE_SUCCESS, null);
+    }
+
+    @GetMapping("/statistics")
+    public ResultVo getStatistics() {
+        return ResultUtils.ret(ResultCodeEnum.SETTINGS_GET_SUCCESS, statisticsService.getStatistic());
     }
 
 }

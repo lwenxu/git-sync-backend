@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class JobScheduleService {
@@ -69,6 +70,10 @@ public class JobScheduleService {
         jobSchedule.setStatus(status);
         JobSchedule schedule = jobScheduleRepository.save(jobSchedule);
         WebSocketService.sendAll(JSON.toJSONString(WsResultUtils.success(schedule, WsResultVO.SYNC_STATUS_CHANGE)));
+    }
+
+    public void syncingFiles(Set files) {
+        WebSocketService.sendAll(JSON.toJSONString(WsResultUtils.success(files, WsResultVO.SYNCING_FILES)));
     }
 
 
