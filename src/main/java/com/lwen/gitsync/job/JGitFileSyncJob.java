@@ -3,6 +3,7 @@ package com.lwen.gitsync.job;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
 import com.lwen.gitsync.constants.LogConstants;
+import com.lwen.gitsync.entry.AccountInfo;
 import com.lwen.gitsync.service.JobScheduleService;
 import com.lwen.gitsync.service.StatisticsService;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class JGitFileSyncJob implements Job {
     private String commitMsg;
     private JobScheduleService jobScheduleService;
     private StatisticsService statisticsService;
+    private AccountInfo accountInfo;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -60,7 +62,7 @@ public class JGitFileSyncJob implements Job {
                 log.info(LogConstants.LOG_TAG + " starting exec GitFileSyncJob ");
                 jobScheduleService.startSync(id);
                 notifySyncingFiles(status);
-                ChainingCredentialsProvider credentialsProvider = new ChainingCredentialsProvider(new UsernamePasswordCredentialsProvider("lwenxu", "sh19970618"));
+                ChainingCredentialsProvider credentialsProvider = new ChainingCredentialsProvider(new UsernamePasswordCredentialsProvider(accountInfo.getUsername(), accountInfo.getPassword()));
                 git.add().addFilepattern(".").call();
                 git.commit().setAll(true).setAuthor("git-sync", "xpf199741@outlook.com").setMessage(commitMsg).call();
                 git.remoteAdd().setUri(new URIish("https://github.com/" + repository)).setName("origin").call();

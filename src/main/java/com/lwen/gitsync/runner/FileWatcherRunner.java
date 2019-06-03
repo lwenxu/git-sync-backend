@@ -30,7 +30,7 @@ public class FileWatcherRunner implements ApplicationRunner {
         jobSchedules.forEach(jobSchedule -> {
             try {
                 // exclude hidden files and .git files
-                IOFileFilter filter = FileFilterUtils.and(HiddenFileFilter.VISIBLE,FileFilterUtils.nameFileFilter(".git"));
+                IOFileFilter filter = FileFilterUtils.and(FileFilterUtils.nameFileFilter(".git"));
                 // observer dir
                 FileAlterationObserver observer = new FileAlterationObserver(new File(jobSchedule.getSyncPath()),filter);
                 observer.addListener(new FileWatcher());

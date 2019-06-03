@@ -38,12 +38,13 @@ public class SyncFilesTask {
             JobDataMap dataMap = new JobDataMap();
             dataMap.put("jobScheduleService", jobScheduleService);
             dataMap.put("statisticsService", statisticsService);
+            dataMap.put("accountInfo", accountInfo);
             JobDetail jobDetail = JobBuilder
                     .newJob(JGitFileSyncJob.class)
                     .withIdentity(jobSchedule.getRepository())
                     .usingJobData("repository", jobSchedule.getRepository())
                     .usingJobData("syncPath", jobSchedule.getSyncPath())
-                    .usingJobData("gitPath", accountInfo.getGitPath())
+                    .usingJobData("username", accountInfo.getUsername())
                     .usingJobData("commitMsg", "\""+new Date() + "autoCommit\"")
                     .usingJobData("id", jobSchedule.getId())
                     .usingJobData(dataMap)

@@ -18,3 +18,4 @@ spring:
 logging:
   level:
     root: info
+  file: sys.log

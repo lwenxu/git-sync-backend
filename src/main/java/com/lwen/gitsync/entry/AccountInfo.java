@@ -18,10 +18,8 @@ public class AccountInfo {
     @GeneratedValue
     private int id;
     private String type;
-    private String gitPath;
-    @Lob
-    @Column(columnDefinition="text")
-    private String sshKey;
+    private String username;
+    private String password;
     // @OneToMany(cascade = CascadeType.ALL)
     // @JoinColumn(name = "aid")
     // private List<JobSchedule> jobSchedule;
