@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-            <version>2.2.1</version>
+            <version>2.3.2</version>
         </dependency>
 
         <!--Spring 项目整合 Quartz 主要依靠添加 SchedulerFactoryBean 这个 FactoryBean ，
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-            <version>2.3.0</version>
+            <version>2.3.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
